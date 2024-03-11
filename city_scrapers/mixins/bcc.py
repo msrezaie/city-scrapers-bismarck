@@ -72,9 +72,17 @@ class BCCMixinMeta(CityScrapersSpider, metaclass=BCCMixinMeta):
         form_data = {
             "calendarView": "list",
         }
+
+        # build headers
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"  # noqa
+        }
+
         # build the URL
         url = f"{self.base_url}?Keywords=&startDate={meeting_date_from}&enddate={meeting_date_to}&CID={self.cid}&showPastEvents=false"  # noqa
-        yield FormRequest(url, method="POST", formdata=form_data, callback=self.parse)
+        yield FormRequest(
+            url, method="POST", headers=headers, formdata=form_data, callback=self.parse
+        )
 
     def parse(self, response):
         """
