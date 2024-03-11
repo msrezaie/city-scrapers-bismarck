@@ -32,7 +32,7 @@ class BCCMixinMeta(type):
         super().__init__(name, bases, dct)
 
 
-class BCCMixinMeta(CityScrapersSpider, metaclass=BCCMixinMeta):
+class BCCMixin(CityScrapersSpider, metaclass=BCCMixinMeta):
     """
     Spider mixin for Bismarck City Commission in Bismarck ND. This mixin
     is intended to be used as a base class for spiders that scrape meeting

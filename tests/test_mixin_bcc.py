@@ -13,12 +13,12 @@ from scrapy.http import FormRequest, HtmlResponse
 from scrapy.selector import Selector
 from scrapy.spiders import Spider
 
-from city_scrapers.mixins.bcc import BCCMixinMeta
+from city_scrapers.mixins.bcc import BCCMixin
 
 
 @pytest.fixture
 def test_spider():
-    class TestSpider(BCCMixinMeta, Spider):
+    class TestSpider(BCCMixin, Spider):
         name = "test_spider"
         agency = "Test Agency"
         cid = "123"
@@ -29,7 +29,7 @@ def test_spider():
 def test_static_variables_enforcement():
     with pytest.raises(NotImplementedError) as e:
 
-        class IncompleteSpider(BCCMixinMeta, Spider):
+        class IncompleteSpider(BCCMixin, Spider):
             pass
 
     assert "must define the following static variable(s): agency, name, cid" in str(

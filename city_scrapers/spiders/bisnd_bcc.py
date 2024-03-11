@@ -1,6 +1,6 @@
 from city_scrapers_core.spiders import CityScrapersSpider
 
-from city_scrapers.mixins.bcc import BCCMixinMeta
+from city_scrapers.mixins.bcc import BCCMixin
 
 spider_configs = [
     {
@@ -171,7 +171,7 @@ def create_spiders():
         if class_name not in globals():
             spider_class = type(
                 class_name,
-                (BCCMixinMeta, CityScrapersSpider),  # Base classes
+                (BCCMixin, CityScrapersSpider),  # Base classes
                 {**config},  # Attributes including name, agency, committee_id
             )
             # Register the class in the global namespace using its class_name
