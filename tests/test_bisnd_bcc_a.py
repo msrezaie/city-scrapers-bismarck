@@ -11,7 +11,7 @@ from city_scrapers.spiders.bisnd_bcc import BisndBCCASpider
 # Setup for spider
 test_response = file_response(
     join(dirname(__file__), "files", "bisnd_bcc_a.html"),
-    url="https://spokanevalley.granicus.com/ViewPublisher.php?view_id=3",
+    url="https://www.bismarcknd.gov/calendar.aspx?Keywords=&startDate=02/04/2024&enddate=09/04/2024&CID=52&showPastEvents=false",  # noqa
 )
 spider = BisndBCCASpider()
 
