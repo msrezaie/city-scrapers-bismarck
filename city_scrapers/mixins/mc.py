@@ -138,7 +138,7 @@ class MCMixin(CityScrapersSpider, metaclass=MCMixinMeta):
                 links.append(
                     {
                         "title": file["name"],
-                        "href": f"https://mandannd.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId={file['fileId']},plainText=false)",  # noqa
+                        "href": f"{self.base_url}/v1/Meetings/GetMeetingFileStream(fileId={file['fileId']},plainText=false)",  # noqa
                     }
                 )
         return links
