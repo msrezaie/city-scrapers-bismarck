@@ -46,7 +46,7 @@ class MCMixin(CityScrapersSpider, metaclass=MCMixinMeta):
 
     def start_requests(self):
         """
-        sdfsdfsdf
+        Construct and yield a request to the API endpoint.
         """
         # Calculate dates for one month prior and one year ahead
         today = datetime.today()
