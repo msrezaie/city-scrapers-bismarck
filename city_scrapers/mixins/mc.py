@@ -51,11 +51,11 @@ class MCMixin(CityScrapersSpider, metaclass=MCMixinMeta):
         # Calculate dates for one month prior and one year ahead
         today = datetime.today()
         one_month_prior = today - relativedelta(months=1)
-        one_year_ahead = today + relativedelta(months=6)
+        half_year_ahead = today + relativedelta(months=6)
 
         # Format dates like "2024-03-01T00:00:00.000Z"
         meeting_date_from = one_month_prior.strftime("%Y-%m-%dT%H:00:00Z")
-        meeting_date_to = one_year_ahead.strftime("%Y-%m-%dT%H:00:00Z")
+        meeting_date_to = half_year_ahead.strftime("%Y-%m-%dT%H:00:00Z")
 
         # build the URL
         url = f"{self.base_url}/v1/Events?$filter=categoryId+in+({self.category_id})+and+startDateTime+ge+{meeting_date_from}+and+startDateTime+le+{meeting_date_to}&$orderby=startDateTime"  # noqa
