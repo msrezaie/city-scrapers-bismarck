@@ -97,6 +97,8 @@ class BisndBpsSpider(CityScrapersSpider):
             href = sel.css("a::attr(href)").get()
             title = sel.css("a::text").get()
             if href is not None and title is not None:
+                # Remove extra spaces from title
+                title = " ".join(title.split())
                 parsed_links.append({"href": href, "title": title})
             else:
                 continue
