@@ -1,12 +1,12 @@
-from datetime import datetime, time
-from lxml import html as lhtml
 import html
 import json
 import re
+from datetime import datetime, time
 
-from city_scrapers_core.constants import COMMITTEE, BOARD, CANCELLED, PASSED, TENTATIVE
+from city_scrapers_core.constants import BOARD, CANCELLED, COMMITTEE, PASSED, TENTATIVE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
+from lxml import html as lhtml
 from scrapy import Selector
 
 
