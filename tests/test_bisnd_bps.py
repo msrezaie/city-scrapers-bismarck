@@ -49,10 +49,7 @@ def test_end():
 
 
 def test_time_notes():
-    assert (
-        parsed_items[0]["time_notes"]
-        == ""
-    )
+    assert parsed_items[0]["time_notes"] == ""
 
 
 def test_id():
