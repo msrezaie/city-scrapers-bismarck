@@ -51,7 +51,7 @@ def test_end():
 def test_time_notes():
     assert (
         parsed_items[0]["time_notes"]
-        == "Meetings that are not of type 'Regular' are held at specific locations with specific timing, please refer to the meeting agenda for more details."  # noqa
+        == ""
     )
 
 
@@ -65,8 +65,8 @@ def test_status():
 
 def test_location():
     assert parsed_items[0]["location"] == {
-        "name": "Tom Baker Meeting Room of the City/County Office Building",
-        "address": "221 N Fifth Street, Bismarck, ND",
+        "name": "Tom Baker Meeting Room",
+        "address": "City/County Office Building, 221 N Fifth Street, Bismarck, ND",
     }
 
 

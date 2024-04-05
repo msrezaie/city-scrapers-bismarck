@@ -3,7 +3,7 @@ import json
 import re
 from datetime import datetime, time
 
-from city_scrapers_core.constants import BOARD, CANCELLED, COMMITTEE, PASSED, TENTATIVE
+from city_scrapers_core.constants import BOARD, COMMITTEE
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
 from lxml import html as lhtml
@@ -21,15 +21,13 @@ class BisndBpsSpider(CityScrapersSpider):
     https://www.bismarckschools.org/Page/398
     """
     meeting_time = time(17, 15)
+
     location = {
-        "name": "Tom Baker Meeting Room of the City/County Office Building",
-        "address": "221 N Fifth Street, Bismarck, ND",
+        "name": "Tom Baker Meeting Room",
+        "address": "City/County Office Building, 221 N Fifth Street, Bismarck, ND",
     }
 
     def parse(self, response):
-        """
-        `parse` should always `yield` Meeting items.
-        """
 
         extracted_input = response.css(
             '.ui-widget-detail input[type="hidden"]::attr(value)'
@@ -57,19 +55,16 @@ class BisndBpsSpider(CityScrapersSpider):
             yield meeting
 
     def _parse_title(self, item):
-        """Parse or generate meeting title."""
         selected_title = item[3]
         html_title_str = lhtml.fromstring(selected_title)
         title = html_title_str.text_content().strip()
         return title if title is not None else ""
 
     def _parse_classification(self, item):
-        """Parse or generate classification from allowed options."""
         title = "".join(item[3].split(">")[1].split("<")[:-1])
         return COMMITTEE if "committee" in title.lower() else BOARD
 
     def _parse_start(self, item):
-        """Parse start datetime as a naive datetime object."""
         extracted_date = [
             html.unescape("".join(element.split(">")[1].split("<")[:-1]))
             for element in item[:3]
@@ -86,10 +81,12 @@ class BisndBpsSpider(CityScrapersSpider):
         are accessable from the meeting agenda.
         The notes are added to further clarify the meeting details.
         """
-        return "Meetings that are not of type 'Regular' are held at specific locations with specific timing, please refer to the meeting agenda for more details."  # noqa
+        title = self._parse_title(item)
+        if "regular" not in title.lower():
+            return "Meetings that are not of type 'Regular' are held at specific locations with specific timing, please refer to the meeting agenda for more details."  # noqa
+        return ""
 
     def _parse_links(self, item):
-        """Parse or generate links."""
         extracted_links = [link for link in item[3:]]
         parsed_links = []
         for link in extracted_links:
@@ -104,18 +101,10 @@ class BisndBpsSpider(CityScrapersSpider):
                 continue
         return parsed_links
 
-    def _get_status(self, item):
-        """Parse or generate status from item."""
-        if "cancel" in item["title"].lower():
-            return CANCELLED
-        if item["start"] < datetime.now():
-            return PASSED
-        return TENTATIVE
-
     def _parsed_data(self, data):
         """
         Some of the extracted meeting data coming from the webpage comes
-        in a format that is not easily parsable. As some of the meeting are
+        in a format that is not easily parsable. As some of the meetings are
         added with multiple dates into single entries. This function filters
         out the meetings that are older than 2 years from the current date and then
         splits the entries with multiple dates into multiple entries with single dates.
